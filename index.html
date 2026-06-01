@@ -302,6 +302,29 @@
     .match-time { font-size: 0.9rem; }
     .match-card { padding: 12px; gap: 8px; }
   }
+
+  .ics-btn {
+    margin-top: 16px;
+    background: linear-gradient(135deg, #e8c84a, #f5a623);
+    border: none;
+    color: #000;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 12px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 20px rgba(232,200,74,0.35);
+    transition: all 0.2s;
+    position: relative;
+    z-index: 1;
+  }
+  .ics-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(232,200,74,0.5);
+  }
+  .ics-btn:active { transform: translateY(0); }
 </style>
 </head>
 <body>
@@ -311,6 +334,7 @@
   <h1>Mundial 2026</h1>
   <p>Fixture completo · Hora Bolivia (UTC−4)</p>
   <div class="flags-row"><img src="https://flagcdn.com/w40/us.png" style="height:20px;border-radius:3px;margin:0 4px"> <img src="https://flagcdn.com/w40/mx.png" style="height:20px;border-radius:3px;margin:0 4px"> <img src="https://flagcdn.com/w40/ca.png" style="height:20px;border-radius:3px;margin:0 4px"></div>
+  <button class="ics-btn" onclick="downloadICS()">📅 Descargar todos los partidos (.ics)</button>
 </header>
 
 <div class="filters" id="filters">
@@ -688,6 +712,79 @@ function renderMatches() {
 }
 
 renderMatches();
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function toICSDate(fecha, hora) {
+  // fecha: "2026-06-11", hora: "15:00"
+  const [y,m,d] = fecha.split('-');
+  const [hh,mm] = hora.split(':');
+  return y+m+d+'T'+hh+mm+'00';
+}
+
+function toICSDateEnd(fecha, hora, horaFin) {
+  const [y,m,d] = fecha.split('-');
+  const [hh,mm] = horaFin.split(':');
+  let day = parseInt(d);
+  let month = parseInt(m);
+  let year = parseInt(y);
+  if (horaFin <= hora) {
+    // next day
+    day += 1;
+    const daysInMonth = new Date(year, month, 0).getDate();
+    if (day > daysInMonth) { day = 1; month += 1; }
+    if (month > 12) { month = 1; year += 1; }
+  }
+  return String(year)+pad(month)+pad(day)+'T'+hh+mm+'00';
+}
+
+function escapeICS(str) {
+  return str.replace(/\/g,'\\').replace(/;/g,'\;').replace(/,/g,'\,').replace(/\n/g,'\n');
+}
+
+function downloadICS() {
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Mundial2026 Bolivia//ES',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'X-WR-CALNAME:Mundial 2026 - Hora Bolivia',
+    'X-WR-TIMEZONE:America/La_Paz',
+  ];
+
+  partidos.forEach(p => {
+    const dtstart = toICSDate(p.fecha, p.hora);
+    const dtend = toICSDateEnd(p.fecha, p.hora, p.horaFin);
+    const summary = escapeICS(`⚽ ${p.local.nombre} vs ${p.visitante.nombre} | Grupo ${p.grupo} - Mundial 2026`);
+    const location = escapeICS(`${p.estadio}, ${p.ciudad}`);
+    const description = escapeICS(`Copa del Mundo FIFA 2026 - Grupo ${p.grupo} - Jornada ${p.jornada}\nHorario Bolivia (UTC-4): ${p.hora}`);
+    const uid = `mundial2026-partido-${p.id}@fixture-bo`;
+
+    lines.push('BEGIN:VEVENT');
+    lines.push(`DTSTART;TZID=America/La_Paz:${dtstart}`);
+    lines.push(`DTEND;TZID=America/La_Paz:${dtend}`);
+    lines.push(`SUMMARY:${summary}`);
+    lines.push(`LOCATION:${location}`);
+    lines.push(`DESCRIPTION:${description}`);
+    lines.push(`UID:${uid}`);
+    lines.push('STATUS:CONFIRMED');
+    lines.push('END:VEVENT');
+  });
+
+  lines.push('END:VCALENDAR');
+
+  const blob = new Blob([lines.join('\r\n')], {type: 'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Mundial2026_Bolivia.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 </script>
 </body>
 </html>
