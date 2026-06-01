@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundial 2026 · Fixture Bolivia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #1a2235;
+    --border: #1e2d45;
+    --accent: #e8c84a;
+    --accent2: #3b82f6;
+    --text: #f0f4ff;
+    --muted: #6b7fa3;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0f1f3d 50%, #0a0e1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 20px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(232,200,74,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-trophy { font-size: 2.5rem; display:block; margin-bottom:6px; }
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    letter-spacing: 4px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .flags-row {
+    font-size: 1.4rem;
+    margin-top: 12px;
+    letter-spacing: 6px;
+    opacity: 0.7;
+  }
+
+  /* FILTERS */
+  .filters {
+    display: flex;
+    gap: 8px;
+    padding: 16px 16px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+  }
+
+  /* SEARCH */
+  .search-wrap {
+    padding: 12px 16px 0;
+  }
+  .search-wrap input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap input:focus { border-color: var(--accent2); }
+
+  /* MAIN */
+  main { padding: 16px; max-width: 860px; margin: 0 auto; }
+
+  /* DATE GROUP */
+  .date-group { margin-bottom: 28px; }
+  .date-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    padding: 0 4px 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .date-label span { color: var(--muted); font-size: 0.75rem; letter-spacing: 1px; font-family: 'DM Sans', sans-serif; }
+
+  /* MATCH CARD */
+  .match-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .match-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .match-card.grupo-A::before { background: #e74c3c; }
+  .match-card.grupo-B::before { background: #3498db; }
+  .match-card.grupo-C::before { background: #2ecc71; }
+  .match-card.grupo-D::before { background: #f39c12; }
+  .match-card.grupo-E::before { background: #9b59b6; }
+  .match-card.grupo-F::before { background: #1abc9c; }
+  .match-card.grupo-G::before { background: #e91e63; }
+  .match-card.grupo-H::before { background: #ff5722; }
+  .match-card.grupo-I::before { background: #00bcd4; }
+  .match-card.grupo-J::before { background: #8bc34a; }
+  .match-card.grupo-K::before { background: #ffc107; }
+  .match-card.grupo-L::before { background: #607d8b; }
+  .match-card:hover { border-color: var(--accent2); transform: translateY(-1px); }
+
+  .team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+  }
+  .team-flag {
+    width: 52px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    display: block;
+  }
+  .team-flag.tbd-flag {
+    width: 52px;
+    height: 36px;
+    background: var(--border);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+  .team-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .team-name.tbd { color: var(--muted); font-weight: 400; font-style: italic; }
+
+  .match-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .vs {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+  .match-time {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .match-group {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .match-meta {
+    grid-column: 1/-1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .match-venue {
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .match-venue span { color: var(--text); font-weight: 500; }
+  .cal-btn {
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: var(--accent2);
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cal-btn:hover {
+    background: var(--accent2);
+    color: #fff;
+  }
+
+  /* EMPTY STATE */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty .icon { font-size: 3rem; margin-bottom: 12px; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+  footer strong { color: var(--accent); }
+
+  /* PHASE TABS */
+  .phase-info {
+    background: linear-gradient(135deg, rgba(232,200,74,0.08), rgba(59,130,246,0.08));
+    border: 1px solid rgba(232,200,74,0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-align: center;
+  }
+  .phase-info strong { color: var(--accent); }
+
+  @media (max-width: 480px) {
+    .team-flag { width: 44px; height: 30px; }
+    .team-name { font-size: 0.72rem; }
+    .match-time { font-size: 0.9rem; }
+    .match-card { padding: 12px; gap: 8px; }
+  }
+
+  .ics-btn {
+    margin-top: 16px;
+    background: linear-gradient(135deg, #e8c84a, #f5a623);
+    border: none;
+    color: #000;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 12px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 20px rgba(232,200,74,0.35);
+    transition: all 0.2s;
+    position: relative;
+    z-index: 1;
+  }
+  .ics-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(232,200,74,0.5);
+  }
+  .ics-btn:active { transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-trophy">🏆</span>
+  <h1>Mundial 2026</h1>
+  <p>Fixture completo · Hora Bolivia (UTC−4)</p>
+  <div class="flags-row"><img src="https://flagcdn.com/w40/us.png" style="height:20px;border-radius:3px;margin:0 4px"> <img src="https://flagcdn.com/w40/mx.png" style="height:20px;border-radius:3px;margin:0 4px"> <img src="https://flagcdn.com/w40/ca.png" style="height:20px;border-radius:3px;margin:0 4px"></div>
+  <button class="ics-btn" onclick="downloadICS()">📅 Descargar todos los partidos (.ics)</button>
+</header>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" onclick="filterGroup('TODOS',this)">Todos</button>
+  <button class="filter-btn" onclick="filterGroup('A',this)">Grupo A</button>
+  <button class="filter-btn" onclick="filterGroup('B',this)">Grupo B</button>
+  <button class="filter-btn" onclick="filterGroup('C',this)">Grupo C</button>
+  <button class="filter-btn" onclick="filterGroup('D',this)">Grupo D</button>
+  <button class="filter-btn" onclick="filterGroup('E',this)">Grupo E</button>
+  <button class="filter-btn" onclick="filterGroup('F',this)">Grupo F</button>
+  <button class="filter-btn" onclick="filterGroup('G',this)">Grupo G</button>
+  <button class="filter-btn" onclick="filterGroup('H',this)">Grupo H</button>
+  <button class="filter-btn" onclick="filterGroup('I',this)">Grupo I</button>
+  <button class="filter-btn" onclick="filterGroup('J',this)">Grupo J</button>
+  <button class="filter-btn" onclick="filterGroup('K',this)">Grupo K</button>
+  <button class="filter-btn" onclick="filterGroup('L',this)">Grupo L</button>
+</div>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="🔍  Buscar equipo o ciudad..." oninput="renderMatches()">
+</div>
+
+<main id="main">
+  <div class="phase-info">
+    Fase de grupos: <strong>11 jun – 27 jun 2026</strong> &nbsp;·&nbsp;
+    Dieciseisavos: <strong>28 jun – 3 jul</strong> &nbsp;·&nbsp;
+    Final: <strong>19 jul · MetLife Stadium, Nueva York</strong>
+  </div>
+</main>
+
+<footer>
+  Horarios en <strong>hora Bolivia (UTC−4)</strong> · Datos oficiales FIFA 2026<br>
+  <span style="opacity:0.5">Haz clic en "+ Calendario" para agregar cada partido a Google Calendar</span>
+</footer>
+
+<script>
+// ── DATOS: todos los partidos fase de grupos ──
+// hora_bo = hora Bolivia (UTC-4). mx = hora México (UTC-6). mx+2=bo
+const partidos = [
+  // ── GRUPO A ──
+  { id:1, grupo:'A', jornada:1, fecha:'2026-06-11', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'México', bandera:'mx'}, visitante:{nombre:'Sudáfrica', bandera:'za'},
+    estadio:'Estadio Azteca', ciudad:'Ciudad de México' },
+  { id:2, grupo:'A', jornada:1, fecha:'2026-06-11', hora:'22:00', horaFin:'00:00',
+    local:{nombre:'Corea del Sur', bandera:'kr'}, visitante:{nombre:'Rep. Checa', bandera:'cz'},
+    estadio:'Estadio Akron', ciudad:'Guadalajara' },
+  { id:3, grupo:'A', jornada:2, fecha:'2026-06-18', hora:'12:00', horaFin:'14:00',
+    local:{nombre:'Rep. Checa', bandera:'cz'}, visitante:{nombre:'Sudáfrica', bandera:'za'},
+    estadio:'Mercedes-Benz Stadium', ciudad:'Atlanta' },
+  { id:4, grupo:'A', jornada:2, fecha:'2026-06-18', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'México', bandera:'mx'}, visitante:{nombre:'Corea del Sur', bandera:'kr'},
+    estadio:'Estadio Akron', ciudad:'Guadalajara' },
+  { id:5, grupo:'A', jornada:3, fecha:'2026-06-24', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'Rep. Checa', bandera:'cz'}, visitante:{nombre:'México', bandera:'mx'},
+    estadio:'Estadio Azteca', ciudad:'Ciudad de México' },
+  { id:6, grupo:'A', jornada:3, fecha:'2026-06-24', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'Sudáfrica', bandera:'za'}, visitante:{nombre:'Corea del Sur', bandera:'kr'},
+    estadio:'Estadio BBVA', ciudad:'Monterrey' },
+  // ── GRUPO B ──
+  { id:7, grupo:'B', jornada:1, fecha:'2026-06-12', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Canadá', bandera:'ca'}, visitante:{nombre:'Bosnia y Herz.', bandera:'ba'},
+    estadio:'BMO Field', ciudad:'Toronto' },
+  { id:8, grupo:'B', jornada:1, fecha:'2026-06-13', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Catar', bandera:'qa'}, visitante:{nombre:'Suiza', bandera:'ch'},
+    estadio:"Levi's Stadium", ciudad:'San Francisco' },
+  { id:9, grupo:'B', jornada:2, fecha:'2026-06-18', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Suiza', bandera:'ch'}, visitante:{nombre:'Bosnia y Herz.', bandera:'ba'},
+    estadio:'SoFi Stadium', ciudad:'Los Ángeles' },
+  { id:10, grupo:'B', jornada:2, fecha:'2026-06-18', hora:'18:00', horaFin:'20:00',
+    local:{nombre:'Canadá', bandera:'ca'}, visitante:{nombre:'Catar', bandera:'qa'},
+    estadio:'BC Place', ciudad:'Vancouver' },
+  { id:11, grupo:'B', jornada:3, fecha:'2026-06-24', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Suiza', bandera:'ch'}, visitante:{nombre:'Canadá', bandera:'ca'},
+    estadio:'BC Place', ciudad:'Vancouver' },
+  { id:12, grupo:'B', jornada:3, fecha:'2026-06-24', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Bosnia y Herz.', bandera:'ba'}, visitante:{nombre:'Catar', bandera:'qa'},
+    estadio:'Lumen Field', ciudad:'Seattle' },
+  // ── GRUPO C ──
+  { id:13, grupo:'C', jornada:1, fecha:'2026-06-13', hora:'18:00', horaFin:'20:00',
+    local:{nombre:'Brasil', bandera:'br'}, visitante:{nombre:'Marruecos', bandera:'ma'},
+    estadio:'MetLife Stadium', ciudad:'Nueva York/Nueva Jersey' },
+  { id:14, grupo:'C', jornada:1, fecha:'2026-06-13', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'Haití', bandera:'ht'}, visitante:{nombre:'Escocia', bandera:'sct'},
+    estadio:'Gillette Stadium', ciudad:'Boston' },
+  { id:15, grupo:'C', jornada:2, fecha:'2026-06-19', hora:'18:00', horaFin:'20:00',
+    local:{nombre:'Escocia', bandera:'sct'}, visitante:{nombre:'Marruecos', bandera:'ma'},
+    estadio:'Gillette Stadium', ciudad:'Boston' },
+  { id:16, grupo:'C', jornada:2, fecha:'2026-06-19', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'Brasil', bandera:'br'}, visitante:{nombre:'Haití', bandera:'ht'},
+    estadio:'Lincoln Financial Field', ciudad:'Filadelfia' },
+  { id:17, grupo:'C', jornada:3, fecha:'2026-06-24', hora:'18:00', horaFin:'20:00',
+    local:{nombre:'Escocia', bandera:'sct'}, visitante:{nombre:'Brasil', bandera:'br'},
+    estadio:'Hard Rock Stadium', ciudad:'Miami' },
+  { id:18, grupo:'C', jornada:3, fecha:'2026-06-24', hora:'18:00', horaFin:'20:00',
+    local:{nombre:'Marruecos', bandera:'ma'}, visitante:{nombre:'Haití', bandera:'ht'},
+    estadio:'Mercedes-Benz Stadium', ciudad:'Atlanta' },
+  // ── GRUPO D ──
+  { id:19, grupo:'D', jornada:1, fecha:'2026-06-12', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'Estados Unidos', bandera:'us'}, visitante:{nombre:'Paraguay', bandera:'py'},
+    estadio:'SoFi Stadium', ciudad:'Los Ángeles' },
+  { id:20, grupo:'D', jornada:1, fecha:'2026-06-14', hora:'00:00', horaFin:'02:00',
+    local:{nombre:'Australia', bandera:'au'}, visitante:{nombre:'Turquía', bandera:'tr'},
+    estadio:'BC Place', ciudad:'Vancouver' },
+  { id:21, grupo:'D', jornada:2, fecha:'2026-06-19', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Estados Unidos', bandera:'us'}, visitante:{nombre:'Australia', bandera:'au'},
+    estadio:'Lumen Field', ciudad:'Seattle' },
+  { id:22, grupo:'D', jornada:2, fecha:'2026-06-20', hora:'00:00', horaFin:'02:00',
+    local:{nombre:'Turquía', bandera:'tr'}, visitante:{nombre:'Paraguay', bandera:'py'},
+    estadio:"Levi's Stadium", ciudad:'San Francisco' },
+  { id:23, grupo:'D', jornada:3, fecha:'2026-06-25', hora:'22:00', horaFin:'00:00',
+    local:{nombre:'Turquía', bandera:'tr'}, visitante:{nombre:'Estados Unidos', bandera:'us'},
+    estadio:'SoFi Stadium', ciudad:'Los Ángeles' },
+  { id:24, grupo:'D', jornada:3, fecha:'2026-06-25', hora:'22:00', horaFin:'00:00',
+    local:{nombre:'Paraguay', bandera:'py'}, visitante:{nombre:'Australia', bandera:'au'},
+    estadio:"Levi's Stadium", ciudad:'San Francisco' },
+  // ── GRUPO E ──
+  { id:25, grupo:'E', jornada:1, fecha:'2026-06-14', hora:'13:00', horaFin:'15:00',
+    local:{nombre:'Alemania', bandera:'de'}, visitante:{nombre:'Curazao', bandera:'cw'},
+    estadio:'NRG Stadium', ciudad:'Houston' },
+  { id:26, grupo:'E', jornada:1, fecha:'2026-06-14', hora:'19:00', horaFin:'21:00',
+    local:{nombre:'Costa de Marfil', bandera:'ci'}, visitante:{nombre:'Ecuador', bandera:'ec'},
+    estadio:'Lincoln Financial Field', ciudad:'Filadelfia' },
+  { id:27, grupo:'E', jornada:2, fecha:'2026-06-20', hora:'16:00', horaFin:'18:00',
+    local:{nombre:'Alemania', bandera:'de'}, visitante:{nombre:'Costa de Marfil', bandera:'ci'},
+    estadio:'BMO Field', ciudad:'Toronto' },
+  { id:28, grupo:'E', jornada:2, fecha:'2026-06-20', hora:'20:00', horaFin:'22:00',
+    local:{nombre:'Ecuador', bandera:'ec'}, visitante:{nombre:'Curazao', bandera:'cw'},
+    estadio:'Arrowhead Stadium', ciudad:'Kansas City' },
+  { id:29, grupo:'E', jornada:3, fecha:'2026-06-25', hora:'16:00', horaFin:'18:00',
+    local:{nombre:'Ecuador', bandera:'ec'}, visitante:{nombre:'Alemania', bandera:'de'},
+    estadio:'MetLife Stadium', ciudad:'Nueva York/Nueva Jersey' },
+  { id:30, grupo:'E', jornada:3, fecha:'2026-06-25', hora:'16:00', horaFin:'18:00',
+    local:{nombre:'Curazao', bandera:'cw'}, visitante:{nombre:'Costa de Marfil', bandera:'ci'},
+    estadio:'Lincoln Financial Field', ciudad:'Filadelfia' },
+  // ── GRUPO F ──
+  { id:31, grupo:'F', jornada:1, fecha:'2026-06-14', hora:'16:00', horaFin:'18:00',
+    local:{nombre:'Países Bajos', bandera:'nl'}, visitante:{nombre:'Japón', bandera:'jp'},
+    estadio:'AT&T Stadium', ciudad:'Dallas' },
+  { id:32, grupo:'F', jornada:1, fecha:'2026-06-14', hora:'22:00', horaFin:'00:00',
+    local:{nombre:'Irlanda', bandera:'ie'}, visitante:{nombre:'Túnez', bandera:'tn'},
+    estadio:'Estadio BBVA', ciudad:'Monterrey' },
+  { id:33, grupo:'F', jornada:2, fecha:'2026-06-20', hora:'13:00', horaFin:'15:00',
+    local:{nombre:'Países Bajos', bandera:'nl'}, visitante:{nombre:'Irlanda', bandera:'ie'},
+    estadio:'NRG Stadium', ciudad:'Houston' },
+  { id:34, grupo:'F', jornada:2, fecha:'2026-06-21', hora:'00:00', horaFin:'02:00',
+    local:{nombre:'Túnez', bandera:'tn'}, visitante:{nombre:'Japón', bandera:'jp'},
+    estadio:'Estadio BBVA', ciudad:'Monterrey' },
+  { id:35, grupo:'F', jornada:3, fecha:'2026-06-25', hora:'19:00', horaFin:'21:00',
+    local:{nombre:'Japón', bandera:'jp'}, visitante:{nombre:'Irlanda', bandera:'ie'},
+    estadio:'AT&T Stadium', ciudad:'Dallas' },
+  { id:36, grupo:'F', jornada:3, fecha:'2026-06-25', hora:'19:00', horaFin:'21:00',
+    local:{nombre:'Túnez', bandera:'tn'}, visitante:{nombre:'Países Bajos', bandera:'nl'},
+    estadio:'Arrowhead Stadium', ciudad:'Kansas City' },
+  // ── GRUPO G ──
+  { id:37, grupo:'G', jornada:1, fecha:'2026-06-15', hora:'12:00', horaFin:'14:00',
+    local:{nombre:'Bélgica', bandera:'be'}, visitante:{nombre:'Egipto', bandera:'eg'},
+    estadio:'Lumen Field', ciudad:'Seattle' },
+  { id:38, grupo:'G', jornada:1, fecha:'2026-06-15', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'Irán', bandera:'ir'}, visitante:{nombre:'Nueva Zelanda', bandera:'nz'},
+    estadio:'SoFi Stadium', ciudad:'Los Ángeles' },
+  { id:39, grupo:'G', jornada:2, fecha:'2026-06-21', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Bélgica', bandera:'be'}, visitante:{nombre:'Irán', bandera:'ir'},
+    estadio:'SoFi Stadium', ciudad:'Los Ángeles' },
+  { id:40, grupo:'G', jornada:2, fecha:'2026-06-21', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'Nueva Zelanda', bandera:'nz'}, visitante:{nombre:'Egipto', bandera:'eg'},
+    estadio:'BC Place', ciudad:'Vancouver' },
+  { id:41, grupo:'G', jornada:3, fecha:'2026-06-26', hora:'23:00', horaFin:'01:00',
+    local:{nombre:'Egipto', bandera:'eg'}, visitante:{nombre:'Irán', bandera:'ir'},
+    estadio:'Lumen Field', ciudad:'Seattle' },
+  { id:42, grupo:'G', jornada:3, fecha:'2026-06-26', hora:'23:00', horaFin:'01:00',
+    local:{nombre:'Nueva Zelanda', bandera:'nz'}, visitante:{nombre:'Bélgica', bandera:'be'},
+    estadio:'BC Place', ciudad:'Vancouver' },
+  // ── GRUPO H ──
+  { id:43, grupo:'H', jornada:1, fecha:'2026-06-15', hora:'12:00', horaFin:'14:00',
+    local:{nombre:'España', bandera:'es'}, visitante:{nombre:'Cabo Verde', bandera:'cv'},
+    estadio:'Mercedes-Benz Stadium', ciudad:'Atlanta' },
+  { id:44, grupo:'H', jornada:1, fecha:'2026-06-15', hora:'18:00', horaFin:'20:00',
+    local:{nombre:'Arabia Saudita', bandera:'sa'}, visitante:{nombre:'Uruguay', bandera:'uy'},
+    estadio:'Hard Rock Stadium', ciudad:'Miami' },
+  { id:45, grupo:'H', jornada:2, fecha:'2026-06-21', hora:'12:00', horaFin:'14:00',
+    local:{nombre:'España', bandera:'es'}, visitante:{nombre:'Arabia Saudita', bandera:'sa'},
+    estadio:'Mercedes-Benz Stadium', ciudad:'Atlanta' },
+  { id:46, grupo:'H', jornada:2, fecha:'2026-06-21', hora:'18:00', horaFin:'20:00',
+    local:{nombre:'Uruguay', bandera:'uy'}, visitante:{nombre:'Cabo Verde', bandera:'cv'},
+    estadio:'Hard Rock Stadium', ciudad:'Miami' },
+  { id:47, grupo:'H', jornada:3, fecha:'2026-06-26', hora:'20:00', horaFin:'22:00',
+    local:{nombre:'Cabo Verde', bandera:'cv'}, visitante:{nombre:'Arabia Saudita', bandera:'sa'},
+    estadio:'NRG Stadium', ciudad:'Houston' },
+  { id:48, grupo:'H', jornada:3, fecha:'2026-06-26', hora:'20:00', horaFin:'22:00',
+    local:{nombre:'Uruguay', bandera:'uy'}, visitante:{nombre:'España', bandera:'es'},
+    estadio:'Estadio Akron', ciudad:'Guadalajara' },
+  // ── GRUPO I ──
+  { id:49, grupo:'I', jornada:1, fecha:'2026-06-16', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Francia', bandera:'fr'}, visitante:{nombre:'Senegal', bandera:'sn'},
+    estadio:'MetLife Stadium', ciudad:'Nueva York/Nueva Jersey' },
+  { id:50, grupo:'I', jornada:1, fecha:'2026-06-16', hora:'18:00', horaFin:'20:00',
+    local:{nombre:'Irak', bandera:'iq'}, visitante:{nombre:'Noruega', bandera:'no'},
+    estadio:'Gillette Stadium', ciudad:'Boston' },
+  { id:51, grupo:'I', jornada:2, fecha:'2026-06-22', hora:'17:00', horaFin:'19:00',
+    local:{nombre:'Francia', bandera:'fr'}, visitante:{nombre:'Irak', bandera:'iq'},
+    estadio:'Lincoln Financial Field', ciudad:'Filadelfia' },
+  { id:52, grupo:'I', jornada:2, fecha:'2026-06-22', hora:'20:00', horaFin:'22:00',
+    local:{nombre:'Noruega', bandera:'no'}, visitante:{nombre:'Senegal', bandera:'sn'},
+    estadio:'MetLife Stadium', ciudad:'Nueva York/Nueva Jersey' },
+  { id:53, grupo:'I', jornada:3, fecha:'2026-06-26', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Noruega', bandera:'no'}, visitante:{nombre:'Francia', bandera:'fr'},
+    estadio:'Gillette Stadium', ciudad:'Boston' },
+  { id:54, grupo:'I', jornada:3, fecha:'2026-06-26', hora:'15:00', horaFin:'17:00',
+    local:{nombre:'Senegal', bandera:'sn'}, visitante:{nombre:'Irak', bandera:'iq'},
+    estadio:'BMO Field', ciudad:'Toronto' },
+  // ── GRUPO J ──
+  { id:55, grupo:'J', jornada:1, fecha:'2026-06-16', hora:'21:00', horaFin:'23:00',
+    local:{nombre:'Argentina', bandera:'ar'}, visitante:{nombre:'Argelia', bandera:'dz'},
+    estadio:'Arrowhead Stadium', ciudad:'Kansas City' },
+  { id:56, grupo:'J', jornada:1, fecha:'2026-06-17', hora:'00:00', horaFin:'02:00',
+    local:{nombre:'Austria', bandera:'at'}, visitante:{nombre:'Jordania', bandera:'jo'},
+    estadio:"Levi's Stadium", ciudad:'San Francisco' },
+  { id:57, grupo:'J', jornada:2, fecha:'2026-06-22', hora:'13:00', horaFin:'15:00',
+    local:{nombre:'Argentina', bandera:'ar'}, visitante:{nombre:'Austria', bandera:'at'},
+    estadio:'AT&T Stadium', ciudad:'Dallas' },
+  { id:58, grupo:'J', jornada:2, fecha:'2026-06-22', hora:'23:00', horaFin:'01:00',
+    local:{nombre:'Jordania', bandera:'jo'}, visitante:{nombre:'Argelia', bandera:'dz'},
+    estadio:"Levi's Stadium", ciudad:'San Francisco' },
+  { id:59, grupo:'J', jornada:3, fecha:'2026-06-27', hora:'22:00', horaFin:'00:00',
+    local:{nombre:'Argelia', bandera:'dz'}, visitante:{nombre:'Austria', bandera:'at'},
+    estadio:'Arrowhead Stadium', ciudad:'Kansas City' },
+  { id:60, grupo:'J', jornada:3, fecha:'2026-06-27', hora:'22:00', horaFin:'00:00',
+    local:{nombre:'Jordania', bandera:'jo'}, visitante:{nombre:'Argentina', bandera:'ar'},
+    estadio:'AT&T Stadium', ciudad:'Dallas' },
+  // ── GRUPO K ──
+  { id:61, grupo:'K', jornada:1, fecha:'2026-06-17', hora:'13:00', horaFin:'15:00',
+    local:{nombre:'Portugal', bandera:'pt'}, visitante:{nombre:'R.D. Congo', bandera:'cd'},
+    estadio:'NRG Stadium', ciudad:'Houston' },
+  { id:62, grupo:'K', jornada:1, fecha:'2026-06-17', hora:'22:00', horaFin:'00:00',
+    local:{nombre:'Uzbekistán', bandera:'uz'}, visitante:{nombre:'Colombia', bandera:'co'},
+    estadio:'Estadio Azteca', ciudad:'Ciudad de México' },
+  { id:63, grupo:'K', jornada:2, fecha:'2026-06-23', hora:'13:00', horaFin:'15:00',
+    local:{nombre:'Portugal', bandera:'pt'}, visitante:{nombre:'Uzbekistán', bandera:'uz'},
+    estadio:'NRG Stadium', ciudad:'Houston' },
+  { id:64, grupo:'K', jornada:2, fecha:'2026-06-23', hora:'22:00', horaFin:'00:00',
+    local:{nombre:'Colombia', bandera:'co'}, visitante:{nombre:'R.D. Congo', bandera:'cd'},
+    estadio:'Estadio Akron', ciudad:'Guadalajara' },
+  { id:65, grupo:'K', jornada:3, fecha:'2026-06-27', hora:'19:30', horaFin:'21:30',
+    local:{nombre:'Colombia', bandera:'co'}, visitante:{nombre:'Portugal', bandera:'pt'},
+    estadio:'Hard Rock Stadium', ciudad:'Miami' },
+  { id:66, grupo:'K', jornada:3, fecha:'2026-06-27', hora:'19:30', horaFin:'21:30',
+    local:{nombre:'R.D. Congo', bandera:'cd'}, visitante:{nombre:'Uzbekistán', bandera:'uz'},
+    estadio:'Mercedes-Benz Stadium', ciudad:'Atlanta' },
+  // ── GRUPO L ──
+  { id:67, grupo:'L', jornada:1, fecha:'2026-06-17', hora:'16:00', horaFin:'18:00',
+    local:{nombre:'Inglaterra', bandera:'eng'}, visitante:{nombre:'Croacia', bandera:'hr'},
+    estadio:'AT&T Stadium', ciudad:'Dallas' },
+  { id:68, grupo:'L', jornada:1, fecha:'2026-06-17', hora:'19:00', horaFin:'21:00',
+    local:{nombre:'Ghana', bandera:'gh'}, visitante:{nombre:'Panamá', bandera:'pa'},
+    estadio:'BMO Field', ciudad:'Toronto' },
+  { id:69, grupo:'L', jornada:2, fecha:'2026-06-23', hora:'16:00', horaFin:'18:00',
+    local:{nombre:'Inglaterra', bandera:'eng'}, visitante:{nombre:'Ghana', bandera:'gh'},
+    estadio:'Gillette Stadium', ciudad:'Boston' },
+  { id:70, grupo:'L', jornada:2, fecha:'2026-06-23', hora:'19:00', horaFin:'21:00',
+    local:{nombre:'Panamá', bandera:'pa'}, visitante:{nombre:'Croacia', bandera:'hr'},
+    estadio:'BMO Field', ciudad:'Toronto' },
+  { id:71, grupo:'L', jornada:3, fecha:'2026-06-27', hora:'17:00', horaFin:'19:00',
+    local:{nombre:'Panamá', bandera:'pa'}, visitante:{nombre:'Inglaterra', bandera:'eng'},
+    estadio:'MetLife Stadium', ciudad:'Nueva York/Nueva Jersey' },
+  { id:72, grupo:'L', jornada:3, fecha:'2026-06-27', hora:'17:00', horaFin:'19:00',
+    local:{nombre:'Croacia', bandera:'hr'}, visitante:{nombre:'Ghana', bandera:'gh'},
+    estadio:'Lincoln Financial Field', ciudad:'Filadelfia' },
+];
+
+// ── ESTADO ──
+let grupoActivo = 'TODOS';
+
+function filterGroup(g, btn) {
+  grupoActivo = g;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderMatches();
+}
+
+function buildCalUrl(p) {
+  const dateStr = p.fecha.replace(/-/g,'');
+  const startH = p.hora.replace(':','');
+  const endH = p.horaFin.replace(':','');
+  let endDate = dateStr;
+  if (p.horaFin <= p.hora) {
+    // termina al día siguiente
+    const d = new Date(p.fecha + 'T12:00:00');
+    d.setDate(d.getDate()+1);
+    endDate = d.toISOString().slice(0,10).replace(/-/g,'');
+  }
+  const title = encodeURIComponent(`⚽ ${p.local.nombre} vs ${p.visitante.nombre} | Grupo ${p.grupo} – Mundial 2026`);
+  const details = encodeURIComponent(`Copa del Mundo FIFA 2026 – Grupo ${p.grupo} – Jornada ${p.jornada}\nHorario Bolivia (UTC-4): ${p.hora}\nEstadio: ${p.estadio}, ${p.ciudad}`);
+  const loc = encodeURIComponent(`${p.estadio}, ${p.ciudad}`);
+  // Sin timezone explícito: Google Calendar lo toma como hora local del usuario
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dateStr}T${startH}00/${endDate}T${endH}00&details=${details}&location=${loc}&ctz=America%2FLa_Paz`;
+}
+
+function groupByDate(arr) {
+  const map = {};
+  arr.forEach(p => {
+    if (!map[p.fecha]) map[p.fecha] = [];
+    map[p.fecha].push(p);
+  });
+  return map;
+}
+
+function formatDate(str) {
+  const d = new Date(str + 'T12:00:00');
+  return d.toLocaleDateString('es-BO', { weekday:'long', day:'numeric', month:'long' })
+    .replace(/^\w/, c => c.toUpperCase());
+}
+
+function isTBD(nombre) {
+  return nombre.startsWith('Rep.') || nombre === 'Por definir';
+}
+
+function renderMatches() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  let filtered = partidos.filter(p => {
+    const matchGroup = grupoActivo === 'TODOS' || p.grupo === grupoActivo;
+    const matchSearch = !q || 
+      p.local.nombre.toLowerCase().includes(q) ||
+      p.visitante.nombre.toLowerCase().includes(q) ||
+      p.ciudad.toLowerCase().includes(q) ||
+      p.estadio.toLowerCase().includes(q);
+    return matchGroup && matchSearch;
+  });
+
+  const main = document.getElementById('main');
+  const phaseInfo = main.querySelector('.phase-info');
+
+  if (filtered.length === 0) {
+    main.innerHTML = '';
+    main.appendChild(phaseInfo);
+    main.innerHTML += `<div class="empty"><div class="icon">🔍</div><p>No se encontraron partidos</p></div>`;
+    return;
+  }
+
+  const byDate = groupByDate(filtered);
+  let html = '';
+  Object.keys(byDate).sort().forEach(fecha => {
+    const matches = byDate[fecha].sort((a,b) => a.hora.localeCompare(b.hora));
+    html += `<div class="date-group">
+      <div class="date-label">
+        ${formatDate(fecha)}
+        <span>${matches.length} partido${matches.length > 1 ? 's' : ''}</span>
+      </div>`;
+    matches.forEach(p => {
+      html += `<div class="match-card grupo-${p.grupo}">
+        <div class="team">
+          ${p.local.bandera === 'tbd' ? '<div class="team-flag tbd-flag">🏳️</div>' : '<img class="team-flag" src="https://flagcdn.com/w80/' + (p.local.bandera === 'sct' ? 'gb-sct' : p.local.bandera === 'eng' ? 'gb-eng' : p.local.bandera) + '.png" alt="${p.local.nombre}">'}
+          <span class="team-name${isTBD(p.local.nombre) ? ' tbd' : ''}">${p.local.nombre}</span>
+        </div>
+        <div class="match-center">
+          <div class="match-time">${p.hora}</div>
+          <div class="vs">VS</div>
+          <div class="match-group">Grupo ${p.grupo} · J${p.jornada}</div>
+        </div>
+        <div class="team">
+          ${p.visitante.bandera === 'tbd' ? '<div class="team-flag tbd-flag">🏳️</div>' : '<img class="team-flag" src="https://flagcdn.com/w80/' + (p.visitante.bandera === 'sct' ? 'gb-sct' : p.visitante.bandera === 'eng' ? 'gb-eng' : p.visitante.bandera) + '.png" alt="${p.visitante.nombre}">'}
+          <span class="team-name${isTBD(p.visitante.nombre) ? ' tbd' : ''}">${p.visitante.nombre}</span>
+        </div>
+        <div class="match-meta">
+          <div class="match-venue">📍 <span>${p.estadio}</span>, ${p.ciudad}</div>
+          <a class="cal-btn" href="${buildCalUrl(p)}" target="_blank">+ Calendario</a>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  main.innerHTML = '';
+  main.appendChild(phaseInfo);
+  main.innerHTML += html;
+}
+
+renderMatches();
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function toICSDate(fecha, hora) {
+  // fecha: "2026-06-11", hora: "15:00"
+  const [y,m,d] = fecha.split('-');
+  const [hh,mm] = hora.split(':');
+  return y+m+d+'T'+hh+mm+'00';
+}
+
+function toICSDateEnd(fecha, hora, horaFin) {
+  const [y,m,d] = fecha.split('-');
+  const [hh,mm] = horaFin.split(':');
+  let day = parseInt(d);
+  let month = parseInt(m);
+  let year = parseInt(y);
+  if (horaFin <= hora) {
+    // next day
+    day += 1;
+    const daysInMonth = new Date(year, month, 0).getDate();
+    if (day > daysInMonth) { day = 1; month += 1; }
+    if (month > 12) { month = 1; year += 1; }
+  }
+  return String(year)+pad(month)+pad(day)+'T'+hh+mm+'00';
+}
+
+function escapeICS(str) {
+  return str.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+}
+
+function downloadICS() {
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Mundial2026 Bolivia//ES',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'X-WR-CALNAME:Mundial 2026 - Hora Bolivia',
+    'X-WR-TIMEZONE:America/La_Paz',
+  ];
+
+  partidos.forEach(p => {
+    const dtstart = toICSDate(p.fecha, p.hora);
+    const dtend = toICSDateEnd(p.fecha, p.hora, p.horaFin);
+    const summary = escapeICS(`⚽ ${p.local.nombre} vs ${p.visitante.nombre} | Grupo ${p.grupo} - Mundial 2026`);
+    const location = escapeICS(`${p.estadio}, ${p.ciudad}`);
+    const description = escapeICS(`Copa del Mundo FIFA 2026 - Grupo ${p.grupo} - Jornada ${p.jornada}\nHorario Bolivia (UTC-4): ${p.hora}`);
+    const uid = `mundial2026-partido-${p.id}@fixture-bo`;
+
+    lines.push('BEGIN:VEVENT');
+    lines.push(`DTSTART;TZID=America/La_Paz:${dtstart}`);
+    lines.push(`DTEND;TZID=America/La_Paz:${dtend}`);
+    lines.push(`SUMMARY:${summary}`);
+    lines.push(`LOCATION:${location}`);
+    lines.push(`DESCRIPTION:${description}`);
+    lines.push(`UID:${uid}`);
+    lines.push('STATUS:CONFIRMED');
+    lines.push('END:VEVENT');
+  });
+
+  lines.push('END:VCALENDAR');
+
+  const blob = new Blob([lines.join('\r\n')], {type: 'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Mundial2026_Bolivia.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+</script>
+</body>
+</html>
